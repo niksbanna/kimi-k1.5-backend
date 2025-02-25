@@ -6,8 +6,18 @@ const OpenAI = require('openai');
 
 dotenv.config();
 
+// Configure CORS with more options
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
+
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
@@ -16,6 +26,8 @@ const openai = new OpenAI({
   apiKey: process.env.AI_API_KEY,
   baseURL: process.env.AI_BASE_URL
 });
+
+app.options('*', cors(corsOptions));
 
 app.post('/api/chat', async (req, res) => {
   try {
