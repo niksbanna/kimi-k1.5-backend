@@ -49,6 +49,7 @@ app.post('/api/chat', async (req, res) => {
       ],
       stream: true,
       temperature: 0.7,
+      max_tokens=8192,
     });
 
     for await (const chunk of stream) {
